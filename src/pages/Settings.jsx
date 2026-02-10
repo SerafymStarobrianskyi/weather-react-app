@@ -3,6 +3,7 @@ import { getThemeSetting, setThemeSetting } from "../store/theme.js";
 import { getUnitsSetting, setUnitsSetting } from "../store/units.js";
 import SettingRow from "../components/settings/SettingRow.jsx";
 import "./styles/Settings.css";
+import { getSaveLocationsSetting, setSaveLocationsSetting } from "../store/location.js";
 
 const themeOptions = [
   { value: "light", label: "Light" },
@@ -14,9 +15,15 @@ const unitOptions = [
   { value: "imperial", label: "Imperial (°F)" },
 ];
 
+const saveLocationOptions = [
+  { value: 'on', label: 'On' },
+  { value: 'off', label: 'Off' },
+];
+
 export default function Settings() {
   const [theme, setTheme] = useState(getThemeSetting());
   const [units, setUnits] = useState(getUnitsSetting());
+  const [saveLocations, setSaveLocations] = useState(getSaveLocationsSetting()?'on':'off');
 
   function handleThemeChange(value) {
     setTheme(value);
@@ -25,6 +32,10 @@ export default function Settings() {
   function handleUnitsChange(value) {
     setUnits(value);
     setUnitsSetting(value);
+  }
+  function handleSaveLocationsChange(value) {
+    setSaveLocations(value);
+    setSaveLocationsSetting(value === 'on');
   }
 
   return (
@@ -46,6 +57,15 @@ export default function Settings() {
           options={unitOptions}
           selectedValue={units}
           onChange={handleUnitsChange}
+        />
+      </div>
+      <div className="settings-section">
+        <h2 className="settings-section-title">Privacy</h2>
+        <SettingRow
+          label="Save Last Locations"
+          options={saveLocationOptions}
+          selectedValue={saveLocations}
+          onChange={handleSaveLocationsChange}
         />
       </div>
     </div>

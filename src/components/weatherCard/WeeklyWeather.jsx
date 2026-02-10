@@ -50,7 +50,7 @@ export default function WeeklyWeather() {
         }
       });
 
-      setDays(Object.values(dailyData).slice(1, 6));
+      setDays(Object.values(dailyData).slice(0, 5));
 
       setIsLoading(false);
     }
