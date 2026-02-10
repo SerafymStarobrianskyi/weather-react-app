@@ -13,7 +13,7 @@ export default function Navbar() {
           {isSettings ? (
             <p className="nav-close-btn" onClick={() => navigate(-1)}>
               <img
-                src={`/ui/icons/cross.svg`}
+                src={`${import.meta.env.BASE_URL}ui/icons/cross.svg`}
                 width={40}
                 height={40}
                 alt="Close"
@@ -22,7 +22,7 @@ export default function Navbar() {
           ) : (
             <Link to="/settings">
               <img
-                src={`/ui/icons/gear.svg`}
+                src={`${import.meta.env.BASE_URL}ui/icons/gear.svg`}
                 width={40}
                 height={40}
                 alt="Index"
@@ -40,7 +40,7 @@ export default function Navbar() {
         <div className="nav-right">
           <Link to="/">
             <img
-              src={`/ui/icons/weather-svgrepo-com.svg`}
+              src={`${import.meta.env.BASE_URL}ui/icons/weather-svgrepo-com.svg`}
               width={40}
               height={40}
               alt="Index"

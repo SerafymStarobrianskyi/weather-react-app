@@ -7,7 +7,7 @@ import App from "./App.jsx";
 initializeTheme();
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter basename="/weather-react-app/">
+  <BrowserRouter basename="/weather-react-app">
     <App />
   </BrowserRouter>,
 );

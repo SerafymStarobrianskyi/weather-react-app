@@ -54,7 +54,7 @@ export default function Home() {
           />
           <button className="search-button" disabled={isLoading} type="submit">
             <img
-              src={`/ui/icons/magnifying-glass.svg`}
+              src={`${import.meta.env.BASE_URL}ui/icons/magnifying-glass.svg`}
               width={20}
               height={20}
               alt="Search"
