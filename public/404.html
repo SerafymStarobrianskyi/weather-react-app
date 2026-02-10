@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      const redirect = location.pathname
+        .replace('/weather-react-app', '');
+      location.replace('/weather-react-app/#' + redirect);
+    </script>
+  </head>
+</html>
