@@ -3,7 +3,10 @@ import { getThemeSetting, setThemeSetting } from "../store/theme.js";
 import { getUnitsSetting, setUnitsSetting } from "../store/units.js";
 import SettingRow from "../components/settings/SettingRow.jsx";
 import "./styles/Settings.css";
-import { getSaveLocationsSetting, setSaveLocationsSetting } from "../store/location.js";
+import {
+  getSaveLocationsSetting,
+  setSaveLocationsSetting,
+} from "../store/location.js";
 
 const themeOptions = [
   { value: "light", label: "Light" },
@@ -16,14 +19,16 @@ const unitOptions = [
 ];
 
 const saveLocationOptions = [
-  { value: 'on', label: 'On' },
-  { value: 'off', label: 'Off' },
+  { value: "on", label: "On" },
+  { value: "off", label: "Off" },
 ];
 
 export default function Settings() {
   const [theme, setTheme] = useState(getThemeSetting());
   const [units, setUnits] = useState(getUnitsSetting());
-  const [saveLocations, setSaveLocations] = useState(getSaveLocationsSetting()?'on':'off');
+  const [saveLocations, setSaveLocations] = useState(
+    getSaveLocationsSetting() ? "on" : "off",
+  );
 
   function handleThemeChange(value) {
     setTheme(value);
@@ -35,7 +40,7 @@ export default function Settings() {
   }
   function handleSaveLocationsChange(value) {
     setSaveLocations(value);
-    setSaveLocationsSetting(value === 'on');
+    setSaveLocationsSetting(value === "on");
   }
 
   return (

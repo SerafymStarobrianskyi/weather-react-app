@@ -31,7 +31,7 @@
   margin: 0 auto;
 }
 
-.search-section{
+.search-section {
   width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -93,7 +93,6 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
 }
-
 
 @media (max-width: 540px) {
   .home-container {
