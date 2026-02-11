@@ -32,7 +32,6 @@ export default function WeatherPage() {
           setError(data.message);
           return;
         }
-        console.log(data);
         setWeather(data);
 
         if (weather) {

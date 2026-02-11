@@ -26,7 +26,6 @@ export default function Home() {
         const data = await getWeatherByCoords(latitude, longitude);
         if (data) {
           setGeoLocation(data);
-          console.log(data);
         }
       },
       (error) => {
