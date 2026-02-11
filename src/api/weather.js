@@ -33,3 +33,12 @@ export async function getForecast(city) {
     return null;
   }
 }
+
+export async function getWeatherByCoords(lat, lon) {
+  const units = getUnitsSetting();
+  const response = await fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`,
+  );
+
+  return response.json();
+}

@@ -1,7 +1,10 @@
 import { getWeatherIcon } from "../../helpers/wetherIcon";
+import { getTemperatureUnitSymbol } from "../../store/units";
 import "./LocationCard.css";
 
 export default function LocationCard({ location, onClick }) {
+  const units = getTemperatureUnitSymbol();
+
   function formatDate(timestamp) {
     if (!timestamp) return "";
     const date = new Date(timestamp);
@@ -32,7 +35,9 @@ export default function LocationCard({ location, onClick }) {
       <div className="location-card" onClick={onClick}>
         <h3 className="location-city">{location.name}</h3>
         <p className="location-country">{location.sys.country}</p>
-        <p className="location-time">{formatDate(location.lastSearched)}</p>
+        <p className="location-time">
+          {formatDate(location.lastSearched) || "Your are now on this location"}
+        </p>
 
         <div className="location-weather">
           <div className="weather-icon">
@@ -46,7 +51,7 @@ export default function LocationCard({ location, onClick }) {
 
           <span className="weather-temperature">
             {Math.round(location.main.temp)}
-            {location.savedUnits === "imperial" ? "°F" : "°C"}
+            {units}
           </span>
         </div>
       </div>

@@ -1,5 +1,3 @@
-import { getUnitsSetting } from "./units";
-
 export function getSaveLocationsSetting() {
   const value = localStorage.getItem("save-locations");
   return value === null ? true : value === "true";
@@ -17,12 +15,9 @@ export function getLastLocations() {
 export function saveLastLocation(location) {
   if (!getSaveLocationsSetting()) return;
 
-  const currentUnits = getUnitsSetting();
-
   const locationWithTimestamp = {
     ...location,
     lastSearched: Date.now(),
-    savedUnits: currentUnits,
   };
 
   localStorage.setItem("last-locations", JSON.stringify(locationWithTimestamp));

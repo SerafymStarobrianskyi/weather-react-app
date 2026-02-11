@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getWeather } from "../api/weather";
+import { getWeather, getWeatherByCoords } from "../api/weather";
 import LocationCard from "../components/locationCard/LocationCard.jsx";
 import "./styles/Home.css";
 import {
@@ -8,19 +8,54 @@ import {
   getSaveLocationsSetting,
   saveLastLocation,
 } from "../store/location";
-import { getUnitsSetting } from "../store/units.js";
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [lastLocations, setLastLocations] = useState(null);
+  const [geoLocation, setGeoLocation] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLastLocations(getLastLocations());
-    console.log(lastLocations);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        const data = await getWeatherByCoords(latitude, longitude);
+        if (data) {
+          setGeoLocation(data);
+          console.log(data);
+        }
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+      },
+    );
+  }, []);
+
+  useEffect(() => {
+    async function loadLastLocation() {
+      const saved = getLastLocations();
+
+      if (!saved) return;
+
+      try {
+        const freshData = await getWeather(saved.name);
+
+        if (freshData.cod === 200) {
+          setLastLocations({
+            ...freshData,
+            lastSearched: saved.lastSearched,
+          });
+        }
+      } catch (err) {
+        console.error("Error refreshing last location:", err);
+      }
+    }
+
+    loadLastLocation();
   }, []);
 
   async function handleSearch(e) {
@@ -43,7 +78,9 @@ export default function Home() {
       }
 
       if (getSaveLocationsSetting()) {
-        saveLastLocation(weatherData);
+        saveLastLocation({
+          name: weatherData.name,
+        });
         setLastLocations(getLastLocations());
       }
 
@@ -56,8 +93,11 @@ export default function Home() {
       setIsLoading(false);
     }
   }
+  function handleGeoLocationSelect() {
+    navigate(`/weather/${encodeURIComponent(geoLocation.name)}`);
+  }
 
-  function handleLocationSelect(location) {
+  function handleLocationSelect() {
     navigate(`/weather/${encodeURIComponent(lastLocations.name)}`);
   }
 
@@ -90,15 +130,27 @@ export default function Home() {
         {isLoading && <p className="loading-message">Searching...</p>}
       </div>
 
-      {showLastLocations() && (
-        <>
-          <p>Last Location</p>
-          <LocationCard
-            location={lastLocations}
-            onClick={handleLocationSelect}
-          />
-        </>
-      )}
+      <div className="locations-row">
+        {geoLocation && (
+          <div className="locations-item">
+            <p className="locations-title">Your Location</p>
+            <LocationCard
+              location={geoLocation}
+              onClick={handleGeoLocationSelect}
+            />
+          </div>
+        )}
+
+        {showLastLocations() && (
+          <div className="locations-item">
+            <p className="locations-title">Last Location</p>
+            <LocationCard
+              location={lastLocations}
+              onClick={handleLocationSelect}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
